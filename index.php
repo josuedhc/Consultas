@@ -6,6 +6,12 @@ $sql="SELECT * FROM comprometido c, fechaCompromiso f WHERE c.idCompromiso = f.i
 $query=mysqli_query($conn,$sql);
 $row=mysqli_fetch_array($query); 
 
+
+
+$sql2="SELECT c.folio,d.folioCompro,c.ClavePresupuestal,c.Total,d.ImporteTotal FROM siaf.comprometido c, siaf.fechacompromiso f, siaf.devengo d WHERE c.idcompromiso = f.idcom and c.folio = d.folioCompro and c.clavepresupuestal = d.ClavePresupuestal;";
+$query2=mysqli_query($conn,$sql2);
+$row2=mysqli_fetch_array($query2);
+
 ?>
 
 
@@ -131,6 +137,60 @@ $row=mysqli_fetch_array($query);
             </table>           
 
         </div> 
+            
+
+<!--Prueba c.folio,d.folioCompro ,c.clavepresupuestal,c.total,d.Importetotal -->
+        <table class="table table-bordered">
+    <thead>
+        <tr>
+                         <th scope="col">folio</th>
+                         <th scope="col">folioComprometido</th>
+                        <th scope="col">Ejercicio</th>
+                        <th scope="col">Ramo</th>
+                        <th scope="col">Institución</th>
+                        <th scope="col">Unidad</th>
+                        <th scope="col">Programa</th>
+                        <th scope="col">Iden Gasto</th>
+                        <th scope="col">Financiamiento</th>
+                        <th scope="col">Origen</th>
+                        <th scope="col">Procedencia</th>
+                        <th scope="col">Objeto Gasto</th>
+                        <th scope="col">aprobado</th>
+                        <th scope="col">pagada</th>
+                        
+        
+        </tr>
+    </thead>
+    <tbody>
+            <?php
+                            while($row2=mysqli_fetch_array($query2)){
+            ?>
+                        <tr>
+                            <th><?php echo $row2['folio']?></th>
+                            <th><?php echo $row2['folioCompro']?></th>
+                            <th><?php echo substr(($row2['ClavePresupuestal']),0,2) ?></th>
+                            <th><?php echo substr(($row2['ClavePresupuestal']),3,2) ?></th>
+                            <th><?php echo substr(($row2['ClavePresupuestal']),6,3) ?></th>
+                            <th><?php echo substr(($row2['ClavePresupuestal']),10,4) ?></th>
+                            <th><?php echo substr(($row2['ClavePresupuestal']),21,4) ?></th>
+                            <th><?php echo substr(($row2['ClavePresupuestal']),33,1) ?></th>
+                            <th><?php echo substr(($row2['ClavePresupuestal']),35,1) ?></th>
+                            <th><?php echo substr(($row2['ClavePresupuestal']),37,1) ?></th>
+                            <th><?php echo substr(($row2['ClavePresupuestal']),39,3) ?></th>
+                            <th><?php echo substr(($row2['ClavePresupuestal']),47,4) ?></th>
+                            <th><?php echo $row2['Total'] ?></th>
+                            <th><?php echo $row2['ImporteTotal'] ?></th>
+                           
+                        </tr>
+                    <?php
+                            }
+                    ?>
+        
+    </tbody>
+</table>
+                            
+
+
         </section>
 
 
