@@ -21,10 +21,27 @@
         #consulta {
             display: none;
             height: 100%;
+            width: 100%;
             padding-top: 80px;
         }
         
         #Cargar {
             height: 100%;
             padding-top: 80px;
+            margin: 0 auto;
+            clear: both;
+            width: 100%;
+        }
+        
+        th {
+            max-width: 40px !important;
+            word-wrap: break-word;
+            text-align: center;
+        }
+        
+        input {
+            margin: 0px;
+            padding: 0px;
+            width: 100px;
+            margin-left: -17px;
         }

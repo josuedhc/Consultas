@@ -1,5 +1,8 @@
 <?php
 
+// VALOR DEL FORMULARIO
+//$folio =$_POST['seleBusca'];
+
 function conectar(){
     $servername = "proyectoconsulta.localhost";
     $database = "siaf";
@@ -16,5 +19,21 @@ function conectar(){
     
     return $conn;
 }
+
+
+
+
+
+
+
+
+//---------FUNCION PARA CONVERTIR EL TIPO DE FORMATO DE MONEDA-------------
+function convertir($value) {
+    if ($value<0) return "-".convertir(-$value);
+    return '$' . number_format($value, 2);
+  }
+
+
+
 
 ?>
