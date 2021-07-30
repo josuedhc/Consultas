@@ -26,7 +26,6 @@ echo $FolioCon;
     <link rel="stylesheet" href="styles.css" type="text/css" media="all">
     <title>Consultas</title>
 </head>
-
 <body>
     <header>
         <nav>
@@ -143,7 +142,6 @@ echo $FolioCon;
     <script src="https://cdn.datatables.net/fixedheader/3.1.6/js/dataTables.fixedHeader.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
-
 ///--------codigo referente a TablaData
     let temp = $("#btn1").clone();
     $("#btn1").click(function() {
