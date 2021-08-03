@@ -45,3 +45,11 @@
             width: 100px;
             margin-left: -17px;
         }
+        
+        .container-fluid {
+            max-height: 800px;
+        }
+        
+        h2 {
+            text-align: center;
+        }
