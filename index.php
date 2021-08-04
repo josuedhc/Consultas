@@ -1,18 +1,11 @@
 <?php 
     include("conection.php");
-    $conn = conectar();
+    $conn =  conectar();
     $FolioCon = $_POST['consulta'];
-   // echo json_encode(obtenDatos($FolioCon));
-    $sql="SELECT c.folio,d.folioCompro,c.ClavePresupuestal,c.Total,d.ImporteTotal, f.ENERO, f.FEBRERO, f.MARZO, f.ABRIL, f.MAYO, f.JUNIO, f.JULIO, f.AGOSTO, f.SEPTIEMBRE, f.OCTUBRE, f.NOVIEMBRE, f.DICIEMBRE FROM siaf.comprometido c, siaf.fechacompromiso f, siaf.devengo d WHERE  f.idcom = c.idcompromiso  and c.folio = d.folioCompro and c.clavepresupuestal = d.ClavePresupuestal;";
+    $sql="SELECT ClavePresupuestal FROM siaf.comprometido WHERE Folio = '$FolioCon' GROUP BY ClavePresupuestal"; 
+    
     $query=mysqli_query($conn,$sql);
-    $row=mysqli_fetch_array($query); 
-
-    $consultaFolio = "SELECT c.folio,d.folioCompro,c.ClavePresupuestal,c.Total,d.ImporteTotal, f.ENERO, f.FEBRERO, f.MARZO, f.ABRIL, f.MAYO, f.JUNIO, f.JULIO, f.AGOSTO, f.SEPTIEMBRE, f.OCTUBRE, f.NOVIEMBRE, f.DICIEMBRE FROM siaf.comprometido c, siaf.fechacompromiso f, siaf.devengo d WHERE  f.idcom = c.idcompromiso  and  d.folioCompro = '$FolioCon' and c.clavepresupuestal = d.ClavePresupuestal;";
-    $queryConsulta=mysqli_query($conn,$consultaFolio);
-    while($rows1=mysqli_fetch_array($queryConsulta)){
-        echo "Folio: ".$rows1[0]."<br>";
-        }
-
+    echo "Valor Seleccionado: ".$FolioCon;
 ?>
 <!DOCTYPE html> 
 <html lang="en">
@@ -53,7 +46,7 @@
                     <option value=" "> </option>
                     <?php 
                                 $sql1 = "SELECT folio FROM siaf.comprometido group by folio;";
-                                $query1 = $conn -> query ($sql1);
+                                $query1 = $conn-> query ($sql1);
                             while($valores = mysqli_fetch_array($query1)){
                                 echo "<option value='".$valores['folio']."'>".$valores['folio']."</option>";
                         }
@@ -65,69 +58,34 @@
                 <button type="submit" class="btn btn-primary" id="idBtn" >Consultar</button>    
             </div>
         </form>
-
-
-
          
-        <div class="container-fluid">
-            <table id="tablaCon" class="table table-striped table-bordered">
-                <thead>
-                    <tr>
-                        <th scope="col">Folio</th>
-                        <th scope="col">Folio Comprometido</th>
-                        <th scope="col">Clave Presupuestal</th>
-                        <th scope="col">Ejercicio</th>
-                        <th scope="col">Ramo</th>
-                        <th scope="col">Institución</th>
-                        <th scope="col">Unidad</th>
-                        <th scope="col">Programa</th>
-                        <th scope="col">Iden Gasto</th>
-                        <th scope="col">Financiamiento</th>
-                        <th scope="col">Origen</th>
-                        <th scope="col">Procedencia</th>
-                        <th scope="col">Objeto Gasto</th>
-                        <th scope="col">Aprobado</th>
-                        <th scope="col">Pagado</th>
-                        <th scope="col">Diferencia</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                            while($row=mysqli_fetch_array($query)){
-                    ?>
-                    <tr>
-                        <th id="Folio"><?php echo $row['folio']?></th>
-                        <th id="folioCompro"><?php echo $row['folioCompro']?></th>
-                        <th id="ClavePresupuestal"><?php echo $row['ClavePresupuestal']?></th>
-                        <th id="ClavePresupuestal"><?php echo substr(($row['ClavePresupuestal']),0,2) ?></th>
-                        <th id="ClavePresupuestal"><?php echo substr(($row['ClavePresupuestal']),3,2) ?></th>
-                        <th id="ClavePresupuestal"><?php echo substr(($row['ClavePresupuestal']),6,3) ?></th>
-                        <th id="ClavePresupuestal"><?php echo substr(($row['ClavePresupuestal']),10,4) ?></th>
-                        <th id="ClavePresupuestal"><?php echo substr(($row['ClavePresupuestal']),21,4) ?></th>
-                        <th id="ClavePresupuestal"><?php echo substr(($row['ClavePresupuestal']),33,1) ?></th>
-                        <th id="ClavePresupuestal"><?php echo substr(($row['ClavePresupuestal']),35,1) ?></th>
-                        <th id="ClavePresupuestal"><?php echo substr(($row['ClavePresupuestal']),37,1) ?></th>
-                        <th id="ClavePresupuestal"><?php echo substr(($row['ClavePresupuestal']),39,3) ?></th>
-                        <th id="ClavePresupuestall"><?php echo substr(($row['ClavePresupuestal']),47,4) ?></th>
-                        <th id="Total"><?php echo convertir($row['Total']) ?></th>
-                        <th id="ImporteTotal"><?php echo convertir($row['ImporteTotal'])?></th>
-                        <th id="ImporteT"><?php echo convertir($row['Total'] - $row['ImporteTotal'])?></th>
-                    </tr>
-                    <?php
-                        }
-                    ?>
-                </tbody>
-               
-            </table>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-13">
+                        <h3 class="text-center">CONSULTA</h3>
+                        <table class="table table-striped table-hover" >
+                            <thead class="text-center">
+                                <th>ClavePresupuestal</th> 
+                            </thead>
+                            <tbody>
+                            <?php
+                                while($row=mysqli_fetch_array($query)){
+                             ?>
+                                <tr>
+                                <th class="text-center"><?php echo $row['ClavePresupuestal']?></th>
+                                <th><a href="mostrar.php?ClavePresupuestal=<?php echo $row['ClavePresupuestal'] ?>">VER</a></th>
+                                </tr> 
+                                                 
+                            <?php
+                               }
+                            ?>
+                             
+                            </tbody>
+                        </table>
 
-            <button id="btn1">clon</button>
-        </div>
-                    
-
-        
-            
-
-        
+                </div>
+            </div>
+        </div>    
     </section>
 
     <!-- SECCION PARA SUBIR LOS DATOS -->
@@ -159,96 +117,18 @@
     <script src="https://cdn.datatables.net/fixedheader/3.1.6/js/dataTables.fixedHeader.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
-///--------codigo referente a TablaData
-  let temp = $("#btn1").clone();
-  $("#btn1").click(function() {
-      $("#btn1").after(temp);
-  });
+       //funcion para obtener el item seleccionado
+             $("#seleBusca").on("select2:select", function (e) { 
+              var folio = $(e.currentTarget).val();
+              console.log(folio);
+              $("#folio").val(folio);
+                });
+         //funcion para implementar el buscador con select2
+             $(document).ready(function() {
+             $('#seleBusca').select2();
+             });
 
-$(document).ready(function() {
-    var table = $('#tablaCon').DataTable({
-        ajax: 'index.php',
-     
-        orderCellsTop: true,
-        fixedHeader: true,
-        ordering: false,
-        bAutoWidth: false,
-        
-        language: {
-            search: "Filtrar:",
-            info: "Mostrando desde el _START_ al _END_ del total de _TOTAL_ registros",
-            infoEmpty: "Mostrando desde el 0 al 0 del total de  0 registros",
-            lengthMenu: "Mostrar _MENU_ registros por página",
-            paginate: {
-                first: "Primera",
-                last: "Última",
-                next: "Siguiente",
-                previous: "Anterior",
-            }
-        }
-
-    });
-    //Creamos una fila en el head de la tabla y lo clonamos para cada columna
-    $('#tablaCon thead tr').clone(true).appendTo('#tablaCon thead');
-
-    $('#tablaCon thead tr:eq(1) th').each(function(i) {
-        var title = $(this).text(); //es el nombre de la columna
-        $(this).html('<input type="text" placeholder="Busca...' + title + '" />');
-
-        $('input', this).on('keyup change', function() {
-            if (table.column(i).search() !== this.value) {
-                table
-                    .column(i)
-                    .search(this.value)
-                    .draw();
-            }
-        });
-
-    });
-
-});
-
-
-//funcion para obtener el item seleccionado
-    $("#seleBusca").on("select2:select", function (e) { 
-     var folio = $(e.currentTarget).val();
-     console.log(folio);
-     $("#folio").val(folio);
-    });
-//funcion para implementar el buscador con select2
-    $(document).ready(function() {
-        $('#seleBusca').select2();
-    });
-
-/*
-    $("#idBtn").click(function() {
-    $.ajax({
-        type:"POST",
-        data:"folio=" +folio,
-        url:"conection.php",
-        success:function (r) {
-            datos=jQuery.parseJSON(r);
-            $(#Folio).value (datos['Folio']);
-            $(#folioCompro).value (datos['folioCompro']);
-            $(#ClavePresupuestal).value (datos['ClavePresupuestal']);
-            $(#ClavePresupuestal).value (datos['ClavePresupuestal']);
-            $(#ClavePresupuestal).value (datos['ClavePresupuestal']);
-            $(#ClavePresupuestal).value (datos['ClavePresupuestal']);
-            $(#ClavePresupuestal).value (datos['ClavePresupuestal']);
-            $(#ClavePresupuestal).value (datos['ClavePresupuestal']);
-            $(#ClavePresupuestal).value (datos['ClavePresupuestal']);
-            $(#ClavePresupuestal).value (datos['ClavePresupuestal']);
-            $(#ClavePresupuestal).value (datos['ClavePresupuestal']);
-            $(#ClavePresupuestal).value (datos['ClavePresupuestal']);
-            $(#ClavePresupuestal).value (datos['ClavePresupuestal']);
-            $(#Total).value (datos['Total']);
-            $(#ImporteTotal).value (datos['ImporteTotal']);
-            $(#ImporteT).value (datos['']);
-        }
-    })
- });
-*/
-
+                  
     </script>
     
 </body>
